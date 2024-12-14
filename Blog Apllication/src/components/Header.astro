@@ -1,0 +1,18 @@
+---
+import { getSession } from '@auth/astro';
+
+const session = await getSession(Astro.request);
+---
+
+<div class="flex justify-between items-center mb-8">
+  <h1 class="text-4xl font-bold text-white">Blog Posts</h1>
+  {session ? (
+    <a href="/new" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+      New Post
+    </a>
+  ) : (
+    <a href="/auth/signin" class="text-purple-400 hover:text-purple-300">
+      Sign in to write
+    </a>
+  )}
+</div>

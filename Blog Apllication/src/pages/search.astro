@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import SearchBar from '../components/SearchBar.astro';
+import { searchPosts } from '../lib/db/posts';
+
+const query = Astro.url.searchParams.get('q') || '';
+const posts = await searchPosts(query);
+---
+
+<Layout title="Search Results">
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-white mb-8">Search Results</h1>
+    
+    <SearchBar query={query} />
+    
+    {posts.length > 0 ? (
+      <div class="grid gap-6">
+        {posts.map((post) => (
+          <PostCard {...post} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-gray-400 text-center">No posts found matching your search.</p>
+    )}
+  </main>
+</Layout>

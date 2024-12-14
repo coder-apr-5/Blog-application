@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import PostCard from '../components/PostCard.astro';
+import { getAllPosts } from '../lib/db/posts';
+
+const allPosts = await getAllPosts();
+---
+
+<Layout title="Blog Platform">
+  <main class="container mx-auto px-4 py-8">
+    <Header />
+    <div class="grid gap-6">
+      {allPosts.map((post) => (
+        <PostCard {...post} />
+      ))}
+    </div>
+  </main>
+</Layout>

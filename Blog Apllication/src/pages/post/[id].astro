@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CommentSection from '../../components/CommentSection.astro';
+import { getPostById } from '../../lib/db/posts';
+import { getCommentsByPostId } from '../../lib/db/comments';
+
+const { id } = Astro.params;
+const post = await getPostById(Number(id));
+const comments = await getCommentsByPostId(Number(id));
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={post.title}>
+  <main class="container mx-auto px-4 py-8">
+    <article class="prose prose-invert mx-auto">
+      <h1 class="text-4xl font-bold text-white mb-4">{post.title}</h1>
+      <div class="text-gray-400 mb-8">
+        {new Date(post.createdAt).toLocaleDateString()}
+      </div>
+      <div class="text-gray-300 leading-relaxed">
+        {post.content}
+      </div>
+      
+      <CommentSection postId={post.id} comments={comments} />
+    </article>
+  </main>
+</Layout>
